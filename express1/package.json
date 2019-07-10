@@ -1,0 +1,23 @@
+{
+  "name": "express1",
+  "version": "1.0.0",
+  "description": "express1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nick-Pistache/express1.git"
+  },
+  "author": "Anaclet Biquet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nick-Pistache/express1/issues"
+  },
+  "homepage": "https://github.com/Nick-Pistache/express1#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  }
+}
