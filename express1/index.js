@@ -1,23 +1,49 @@
 const express = require('express');
+const connection = require('./conf');
 const app = express();
 const port = 3000;
+const bodyParser = require('body-parser');
 
-app.get('/api/movies', (request, response) => {
-  response.send('Récupération de tous les films');
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.put('/api/employee/:id', (request, response) => {
+  const idEmployee = request.params.id;
+  const formData = request.body;
+  connection.query('UPDATE employee SET ? WHERE id=?',[formData,idEmployee], (err,results) => {
+    if (err) {     
+      console.log(err);
+      response.status(500).send("Erreur lors de la modification d'un employé");
+    } else {
+      response.sendStatus(200);
+    }
+  })
 });
 
-app.get('/api/movies/:idfilm', (request, response) => {
-    const idfilm = request.params.idfilm; 
-    response.json( {id: idfilm});
+app.get('/api/employees',(request,response) => {
+  connection.query('SELECT * from employee', (err, results) => {
+    if (err) {      
+      response.status(500).send('Erreur lors de la récupération des employés');
+    } else {      
+      response.json(results);
+    }
+  });
+
 });
 
-app.get('/api/employee/status', (request, response) => {
-    response.sendStatus(304);
-});
-
-app.get('/api/employee', (request, response) => {
-    const name = request.query.name; 
-    response.status(404).send("Impossible de récupérer l'employé " + name);
+app.post('/api/employees', (request, response) => {  
+  const formData = request.body;  
+  connection.query('INSERT INTO employee SET ?', formData, (err, results) => {
+    if (err) {     
+      console.log(err);
+      response.status(500).send("Erreur lors de la sauvegarde d'un employé");
+    } else {
+      response.sendStatus(200);
+    }
+  });
 });
 
 app.listen(port, (err) => {
